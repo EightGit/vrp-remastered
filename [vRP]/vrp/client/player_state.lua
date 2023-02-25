@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(vRPConfig.PlayerSavingTime)
     if IsPlayerPlaying(PlayerId()) and state_ready then
-      local x,y,z = table.unpack(GetEntityCoords(GetPlayerPed(-1),true))
+      local x,y,z = table.unpack(GetEntityCoords(PlayerPedId(),true))
       vRPserver.updatePos({x,y,z})
       vRPserver.updateHealth({tvRP.getHealth()})
       vRPserver.updateArmour({GetPedArmour(PlayerPedId())})
@@ -80,7 +80,7 @@ function tvRP.getWeaponTypes()
 end
 
 function tvRP.getWeapons()
-  local player = GetPlayerPed(-1)
+  local player = PlayerPedId()
 
   local ammo_types = {} -- remember ammo type to not duplicate ammo amount
 
@@ -105,7 +105,7 @@ function tvRP.getWeapons()
 end
 
 function tvRP.giveWeapons(weapons,clear_before)
-  local player = GetPlayerPed(-1)
+  local player = PlayerPedId()
 
   -- give weapons to player
 
@@ -124,7 +124,7 @@ end
 
 --[[
 function tvRP.dropWeapon()
-  SetPedDropsWeapon(GetPlayerPed(-1))
+  SetPedDropsWeapon(PlayerPedId())
 end
 --]]
 
@@ -143,23 +143,23 @@ end
 function tvRP.getDrawables(part)
   local isprop, index = parse_part(part)
   if isprop then
-    return GetNumberOfPedPropDrawableVariations(GetPlayerPed(-1),index)
+    return GetNumberOfPedPropDrawableVariations(PlayerPedId(),index)
   else
-    return GetNumberOfPedDrawableVariations(GetPlayerPed(-1),index)
+    return GetNumberOfPedDrawableVariations(PlayerPedId(),index)
   end
 end
 
 function tvRP.getDrawableTextures(part,drawable)
   local isprop, index = parse_part(part)
   if isprop then
-    return GetNumberOfPedPropTextureVariations(GetPlayerPed(-1),index,drawable)
+    return GetNumberOfPedPropTextureVariations(PlayerPedId(),index,drawable)
   else
-    return GetNumberOfPedTextureVariations(GetPlayerPed(-1),index,drawable)
+    return GetNumberOfPedTextureVariations(PlayerPedId(),index,drawable)
   end
 end
 
 function tvRP.getCustomization()
-  local ped = GetPlayerPed(-1)
+  local ped = PlayerPedId()
 
   local custom = {}
 
@@ -184,7 +184,7 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
 
   Citizen.CreateThread(function() -- new thread
     if custom then
-      local ped = GetPlayerPed(-1)
+      local ped = PlayerPedId()
       local mhash = nil
 
       -- model
@@ -210,7 +210,7 @@ function tvRP.setCustomization(custom) -- indexed [drawable,texture,palette] com
         end
       end
 
-      ped = GetPlayerPed(-1)
+      ped = PlayerPedId()
 
       -- parts
       for k,v in pairs(custom) do

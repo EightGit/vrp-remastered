@@ -1,6 +1,6 @@
 -- api
 function tvRP.varyHealth(variation)
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
 
     local n = math.floor(GetEntityHealth(ped) + variation)
     TriggerEvent('vRP:IsInComa', false)
@@ -8,12 +8,12 @@ function tvRP.varyHealth(variation)
 end
 
 function tvRP.getHealth()
-    return GetEntityHealth(GetPlayerPed(-1))
+    return GetEntityHealth(PlayerPedId())
 end
 
 function tvRP.setHealth(health)
     local n = math.floor(health)
-    SetEntityHealth(GetPlayerPed(-1), n)
+    SetEntityHealth(PlayerPedId(), n)
 end
 
 function tvRP.setArmour(armour)
@@ -22,7 +22,7 @@ end
 
 function tvRP.setFriendlyFire(flag)
     NetworkSetFriendlyFireOption(flag)
-    SetCanAttackFriendly(GetPlayerPed(-1), flag, flag)
+    SetCanAttackFriendly(PlayerPedId(), flag, flag)
 end
 
 function tvRP.setPolice(flag)
@@ -31,6 +31,12 @@ function tvRP.setPolice(flag)
     SetDispatchCopsForPlayer(player, flag)
 end
 
+
+--function tvRP.setOnGround(netId) --for future use
+    --repeat Wait(0) until NetToObj(netId) > 0
+    --PlaceObjectOnGroundProperly(NetToObj(netId))
+--end
+
 -- impact thirst and hunger when the player is running (every 5 seconds)
 Citizen.CreateThread(function()
     if vRPConfig.EnableFoodAndWater then 
@@ -38,7 +44,7 @@ Citizen.CreateThread(function()
             Citizen.Wait(5000)
 
             if IsPlayerPlaying(PlayerId()) then
-                local ped = GetPlayerPed(-1)
+                local ped = PlayerPedId()
 
                 -- variations for one minute
                 local vthirst = 0
@@ -86,7 +92,7 @@ Citizen.CreateThread(function() -- coma thread
     if vRPConfig.EnableComa then 
         while true do
             Citizen.Wait(0)
-            local ped = GetPlayerPed(-1)
+            local ped = PlayerPedId()
 
             local health = GetEntityHealth(ped)
             if health <= cfg.coma_threshold and coma_left > 0 then

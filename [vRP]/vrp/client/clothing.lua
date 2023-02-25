@@ -63,7 +63,7 @@ RageUI.CreateWhile(1.0, true, function()
                         Citizen.Wait(0)
                     end
                     SetPlayerModel(PlayerId(), model)
-                    SetPedComponentVariation(GetPlayerPed(-1), 0, 0, 0, 2) 
+                    SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2) 
                 end
             end,RMenu:Get("vRPClothing", "changegendersubmenu"))
             RageUI.Button("Male", "", {}, true, function(Hovered, Active, Selected) 
@@ -75,7 +75,7 @@ RageUI.CreateWhile(1.0, true, function()
                         Citizen.Wait(0)
                     end
                     SetPlayerModel(PlayerId(), model)
-                    SetPedComponentVariation(GetPlayerPed(-1), 0, 0, 0, 2) 
+                    SetPedComponentVariation(PlayerPedId(), 0, 0, 0, 2) 
                 end
             end)
         end)

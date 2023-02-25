@@ -1,8 +1,3 @@
---[[
-vRP Los Santos Customs V1.2
-Credits - MythicalBro and マーモット#2533 for the vRP version and some bug fixes
-]]
-
 local colors = {
 	{name = "Black", colorindex = 0},{name = "Carbon Black", colorindex = 147},
 	{name = "Hraphite", colorindex = 1},{name = "Anhracite Black", colorindex = 11},
@@ -42,6 +37,8 @@ local colors = {
 	{name = "Spinnaker Purple", colorindex = 72},{name = "Midnight Purple", colorindex = 142},
 	{name = "Bright Purple", colorindex = 145},{name = "Cream", colorindex = 107},
 	{name = "Ice White", colorindex = 111},{name = "Frost White", colorindex = 112}}
+
+
 local metalcolors = {
 	{name = "Brushed Steel",colorindex = 117},
 	{name = "Brushed Black Steel",colorindex = 118},
@@ -49,6 +46,7 @@ local metalcolors = {
 	{name = "Pure Gold",colorindex = 158},
 	{name = "Brushed Gold",colorindex = 159}
 }
+
 local mattecolors = {
 	{name = "Black", colorindex = 12},
 	{name = "Gray", colorindex = 13},

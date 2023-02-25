@@ -190,7 +190,7 @@ cfg.MiscButtons = {
                     local nveh = CreateVehicle(mhash, x,y,z+0.5, 0.0, true, false)
                     SetVehicleOnGroundProperly(nveh)
                     SetEntityInvincible(nveh,false)
-                    SetPedIntoVehicle(GetPlayerPed(-1),nveh,-1) -- put player inside
+                    SetPedIntoVehicle(PlayerPedId(),nveh,-1) -- put player inside
                     SetVehicleNumberPlateText(nveh, "P "..tvRP.getRegistrationNumber())
                     --Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
                     SetVehicleHasBeenOwnedByPlayer(nveh,true)

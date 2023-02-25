@@ -7,7 +7,7 @@ local cop = false
 -- set player as cop (true or false)
 function tvRP.setCop(flag)
   cop = flag
-  SetPedAsCop(GetPlayerPed(-1),flag)
+  SetPedAsCop(PlayerPedId(),flag)
 end
 
 -- HANDCUFF
@@ -15,12 +15,12 @@ end
 function tvRP.toggleHandcuff()
   handcuffed = not handcuffed
 
-  SetEnableHandcuffs(GetPlayerPed(-1), handcuffed)
+  SetEnableHandcuffs(PlayerPedId(), handcuffed)
   if handcuffed then
     tvRP.playAnim(true,{{"mp_arresting","idle",1}},true)
   else
     tvRP.stopAnim(true)
-    SetPedStealthMovement(GetPlayerPed(-1),false,"") 
+    SetPedStealthMovement(PlayerPedId(),false,"") 
   end
 end
 
@@ -41,7 +41,7 @@ function tvRP.putInNearestVehicleAsPassenger(radius)
   if IsEntityAVehicle(veh) then
     for i=1,math.max(GetVehicleMaxNumberOfPassengers(veh),3) do
       if IsVehicleSeatFree(veh,i) then
-        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        SetPedIntoVehicle(PlayerPedId(),veh,i)
         return true
       end
     end
@@ -55,7 +55,7 @@ function tvRP.putInNetVehicleAsPassenger(net_veh)
   if IsEntityAVehicle(veh) then
     for i=1,GetVehicleMaxNumberOfPassengers(veh) do
       if IsVehicleSeatFree(veh,i) then
-        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        SetPedIntoVehicle(PlayerPedId(),veh,i)
         return true
       end
     end
@@ -67,7 +67,7 @@ function tvRP.putInVehiclePositionAsPassenger(x,y,z)
   if IsEntityAVehicle(veh) then
     for i=1,GetVehicleMaxNumberOfPassengers(veh) do
       if IsVehicleSeatFree(veh,i) then
-        SetPedIntoVehicle(GetPlayerPed(-1),veh,i)
+        SetPedIntoVehicle(PlayerPedId(),veh,i)
         return true
       end
     end
@@ -89,7 +89,7 @@ Citizen.CreateThread(function()
   while true do
     Citizen.Wait(0)
     if handcuffed then
-      SetPedStealthMovement(GetPlayerPed(-1),true,"")
+      SetPedStealthMovement(PlayerPedId(),true,"")
       DisableControlAction(0,21,true) -- disable sprint
       DisableControlAction(0,24,true) -- disable attack
       DisableControlAction(0,25,true) -- disable aim
@@ -138,7 +138,7 @@ Citizen.CreateThread(function()
       local dist = math.sqrt(dx*dx+dy*dy)
 
       if dist >= jail[4] then
-        local ped = GetPlayerPed(-1)
+        local ped = PlayerPedId()
         SetEntityVelocity(ped, 0.0001, 0.0001, 0.0001) -- stop player
 
         -- normalize + push to the edge + add origin
@@ -193,7 +193,7 @@ end)
 Citizen.CreateThread(function()
   while true do
     Citizen.Wait(1)
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     if IsPedTryingToEnterALockedVehicle(ped) or IsPedJacking(ped) then
       Citizen.Wait(2000) -- wait x seconds before setting wanted
       local ok,vtype,name = tvRP.getNearestOwnedVehicle(5)

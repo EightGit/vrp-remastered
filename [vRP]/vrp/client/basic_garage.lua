@@ -34,7 +34,7 @@ function tvRP.spawnGarageVehicle(vtype, name, pos) -- vtype is the vehicle type 
             local nveh = CreateVehicle(mhash, x, y, z + 0.5, 0.0, true, false)
             SetVehicleOnGroundProperly(nveh)
             SetEntityInvincible(nveh, false)
-            SetPedIntoVehicle(GetPlayerPed(-1), nveh, -1) -- put player inside
+            SetPedIntoVehicle(PlayerPedId(), nveh, -1) -- put player inside
             SetVehicleNumberPlateText(nveh, "P " .. tvRP.getRegistrationNumber())
             -- Citizen.InvokeNative(0xAD738C3085FE7E11, nveh, true, true) -- set as mission entity
             SetVehicleHasBeenOwnedByPlayer(nveh, true)
@@ -93,7 +93,7 @@ end)
 -- (don't work with all vehicles, but aim to)
 function tvRP.getNearestVehicle(radius)
     local x, y, z = tvRP.getPosition()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     if IsPedSittingInAnyVehicle(ped) then
         return GetVehiclePedIsIn(ped, true)
     else
@@ -130,7 +130,7 @@ function tvRP.getVehicleAtPosition(x, y, z)
     y = y + 0.0001
     z = z + 0.0001
 
-    local ray = CastRayPointToPoint(x, y, z, x, y, z + 4, 10, GetPlayerPed(-1), 0)
+    local ray = CastRayPointToPoint(x, y, z, x, y, z + 4, 10, PlayerPedId(), 0)
     local a, b, c, d, ent = GetRaycastResult(ray)
     return ent
 end
@@ -186,7 +186,7 @@ end
 
 -- eject the ped from the vehicle
 function tvRP.ejectVehicle()
-    local ped = GetPlayerPed(-1)
+    local ped = PlayerPedId()
     if IsPedSittingInAnyVehicle(ped) then
         local veh = GetVehiclePedIsIn(ped, false)
         TaskLeaveVehicle(ped, veh, 4160)

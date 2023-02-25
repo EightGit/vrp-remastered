@@ -184,23 +184,18 @@ MySQL.createCommand("vRP/add_identifier","INSERT INTO vrp_user_ids(identifier,us
 MySQL.createCommand("vRP/userid_byidentifier","SELECT user_id FROM vrp_user_ids WHERE identifier = @identifier")
 MySQL.createCommand("vRP/identifier_all","SELECT * FROM vrp_user_ids WHERE identifier = @identifier")
 MySQL.createCommand("vRP/select_identifier_byid_all","SELECT * FROM vrp_user_ids WHERE user_id = @id")
-
 MySQL.createCommand("vRP/set_userdata","REPLACE INTO vrp_user_data(user_id,dkey,dvalue) VALUES(@user_id,@key,@value)")
 MySQL.createCommand("vRP/get_userdata","SELECT dvalue FROM vrp_user_data WHERE user_id = @user_id AND dkey = @key")
-
 MySQL.createCommand("vRP/set_srvdata","REPLACE INTO vrp_srv_data(dkey,dvalue) VALUES(@key,@value)")
 MySQL.createCommand("vRP/get_srvdata","SELECT dvalue FROM vrp_srv_data WHERE dkey = @key")
-
 MySQL.createCommand("vRP/get_banned","SELECT banned FROM vrp_users WHERE id = @user_id")
 MySQL.createCommand("vRP/set_banned","UPDATE vrp_users SET banned = @banned, bantime = @bantime,  banreason = @banreason,  banadmin = @banadmin WHERE id = @user_id")
 MySQL.createCommand("vRP/set_identifierbanned","UPDATE vrp_user_ids SET banned = @banned WHERE identifier = @iden")
 MySQL.createCommand("vRP/getbanreasontime", "SELECT * FROM vrp_users WHERE id = @user_id")
-
 MySQL.createCommand("vRP/get_whitelisted","SELECT whitelisted FROM vrp_users WHERE id = @user_id")
 MySQL.createCommand("vRP/set_whitelisted","UPDATE vrp_users SET whitelisted = @whitelisted WHERE id = @user_id")
 MySQL.createCommand("vRP/set_last_login","UPDATE vrp_users SET last_login = @last_login WHERE id = @user_id")
 MySQL.createCommand("vRP/get_last_login","SELECT last_login FROM vrp_users WHERE id = @user_id")
-
 --Token Banning 
 MySQL.createCommand("vRP/add_token","INSERT INTO vrp_user_tokens(token,user_id) VALUES(@token,@user_id)")
 MySQL.createCommand("vRP/check_token","SELECT user_id, banned FROM vrp_user_tokens WHERE token = @token")
@@ -322,6 +317,7 @@ function vRP.ReLoadChar(source)
         end
     end)
 end
+
 RegisterCommand("getmyid", function(source)
     TriggerClientEvent('chatMessage', source, "[Server]", {255, 255, 255}, " Perm ID: " .. vRP.getUserId(source) , "alert")
 end)
@@ -634,12 +630,10 @@ end
 
 function task_save_datatables()
     TriggerEvent("vRP:save")
-    
     Debug.pbegin("vRP save datatables")
     for k,v in pairs(vRP.user_tables) do
         vRP.setUData(k,"vRP:datatable",json.encode(v))
     end
-    
     Debug.pend()
     SetTimeout(config.save_interval*1000, task_save_datatables)
 end
@@ -649,11 +643,9 @@ task_save_datatables()
 
 AddEventHandler("playerConnecting",function(name,setMessage, deferrals)
     deferrals.defer()
-    
     local source = source
     Debug.pbegin("playerConnecting")
     local ids = GetPlayerIdentifiers(source)
-    
     if ids ~= nil and #ids > 0 then
         deferrals.update("[vRP] Checking identifiers...")
         vRP.getUserIdByIdentifiers(ids, function(user_id)
@@ -836,7 +828,6 @@ end)
 RegisterServerEvent("vRPcli:playerSpawned")
 AddEventHandler("vRPcli:playerSpawned", function()
     Debug.pbegin("playerSpawned")
-    -- register user sources and then set first spawn to false
     local user_id = vRP.getUserId(source)
     local player = source
     if user_id ~= nil then
